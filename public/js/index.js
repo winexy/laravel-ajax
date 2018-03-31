@@ -81,46 +81,6 @@ function save(event) {
     };
 
 }
-
-
-function deleteOfferAxios(event) {
-    event.preventDefault();
-
-
-    var url = '/offers/delete/';
-
-    var button = event.target;
-    var id = button.dataset.id;
-
-
-    axios.get(url + id)
-        .then(function() {
-            var offer = button.parentElement.parentElement;
-            var offersBlock = offer.parentElement;
-
-            offersBlock.removeChild(offer);
-        });
-}
-function saveAxios(event) {
-    event.preventDefault();
-
-    var formData = new FormData(offerForm);
-
-    axios.post('/offers/create', formData)
-        .then(function(response) {
-            emptyOffers();
-
-            var offersBlock = document.querySelector('#offers');
-
-            offersBlock.innerHTML += response.data.html;
-
-            var deleteButtons = document.querySelectorAll('.offer-delete');
-            deleteButtons.forEach(function (button) {
-                button.addEventListener('click', deleteOfferAxios);
-            });
-        });
-}
-
 function sort(event) {
     var button = event.target;
 
@@ -142,6 +102,63 @@ function sort(event) {
     }
 }
 
+function saveAxios(event) {
+    event.preventDefault();
+
+    var formData = new FormData(offerForm);
+
+    axios({
+        method: 'post',
+        url: '/offers/create',
+        data: formData
+    })
+    .then(function(response) {
+        emptyOffers();
+
+        var offersBlock = document.querySelector('#offers');
+
+        offersBlock.innerHTML += response.data;
+
+        var deleteButtons = document.querySelectorAll('.offer-delete');
+
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', deleteOfferAxios);
+        });
+    });
+
+    // axios.post('/offers/create', formData)
+    //     .then(function(response) {
+    //         emptyOffers();
+    //
+    //         var offersBlock = document.querySelector('#offers');
+    //
+    //         offersBlock.innerHTML += response.data;
+    //
+    //         var deleteButtons = document.querySelectorAll('.offer-delete');
+    //
+    //         deleteButtons.forEach(function (button) {
+    //             button.addEventListener('click', deleteOfferAxios);
+    //         });
+    //     });
+}
+function deleteOfferAxios(event) {
+    event.preventDefault();
+
+
+    var url = '/offers/delete/';
+
+    var button = event.target;
+    var id = button.dataset.id;
+
+
+    axios.get(url + id)
+        .then(function() {
+            var offer = button.parentElement.parentElement;
+            var offersBlock = offer.parentElement;
+
+            offersBlock.removeChild(offer);
+        });
+}
 function sortAxios(event) {
     var button = event.target;
 

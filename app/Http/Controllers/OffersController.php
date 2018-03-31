@@ -21,7 +21,7 @@ class OffersController extends Controller
         $offer =  Offer::create($request->all());
 
         $view = view('include.offer')->with('offer', $offer)->render();
-        return response()->json(['html' => $view]);
+        return $view;
     }
 
     public function destroy($id) {
