@@ -93,7 +93,6 @@ function createOfferAxios(event) {
             offersBlock.innerHTML += response.data;
         })
 }
-
 function deleteOffersAxios(event) {
     event.preventDefault();
     var btn = event.target;
@@ -107,7 +106,6 @@ function deleteOffersAxios(event) {
         });
 
 }
-
 function sortOffersAxios(event) {
     var order = event.target.dataset.order;
 
