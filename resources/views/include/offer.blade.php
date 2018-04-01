@@ -3,5 +3,8 @@
         <button class="float-right btn btn-outline-danger offer-delete" data-id="{{ $offer->offer_id }}">💔</button>
     </form>
     <h4><span class="badge badge-secondary">{{ $offer->offer_id }}</span> {{ $offer->offer_title }}</h4>
+    <hr>
     <p style="word-break: break-all">{{ $offer->offer_description }}</p>
+    <hr>
+    <span>Стоимость: {{ $offer->offer_price }} тг</span>
 </div>

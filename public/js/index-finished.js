@@ -1,179 +1,121 @@
+var form = document.querySelector('#offer-create');
+var offersBlock = document.querySelector('#offers');
 var deleteButtons = document.querySelectorAll('.offer-delete');
-var offerForm = document.querySelector('#offer-create');
 var sortButtons = document.querySelectorAll('.sort');
 
 
-offerForm.addEventListener('submit', saveAxios);
-
-
-deleteButtons.forEach(function(button) {
-    button.addEventListener('click', deleteOfferAxios);
-});
-sortButtons.forEach(function(button) {
-    button.addEventListener('click', sortAxios);
+sortButtons.forEach(function(btn) {
+    // btn.addEventListener('click', sortOffers);
+    btn.addEventListener('click', sortOffersAxios);
 });
 
+deleteButtons.forEach(function(btn) {
+    // btn.addEventListener('click', deleteOffer);
+    btn.addEventListener('click', deleteOffersAxios);
+});
 
+
+// form.addEventListener('submit', createOffer);
+form.addEventListener('submit', createOfferAxios);
+
+function createOffer(event) {
+    event.preventDefault();
+
+
+    var formData = new FormData(form);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/offers/create');
+    xhr.send(formData);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+
+        if (xhr.status !== 200)
+            alert(xhr.status + ': ' + xhr.statusText);
+        else
+            offersBlock.innerHTML += xhr.response;
+    };
+
+}
 function deleteOffer(event) {
     event.preventDefault();
 
 
-    var button = event.target;
-
-
-    var url = '/offers/delete/';
-    var id = button.dataset.id;
-
+    var btn = event.target;
+    var id = btn.dataset.id;
 
     var xhr = new XMLHttpRequest();
-
-
-    xhr.open('GET', url + id);
+    xhr.open('GET', '/offers/delete/' + id);
     xhr.send();
 
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) return;
-
-
-        if (xhr.status !== 200) {
-            console.log(xhr.status + ': ' + xhr.statusText);
-        } else {
-            var offer = button.parentElement.parentElement;
-            var offersBlock = offer.parentElement;
-
-            offersBlock.removeChild(offer);
-        }
-
-    };
-
-
-}
-function save(event) {
-    event.preventDefault();
-
-    var xhr = new XMLHttpRequest();
-
-    const formData = new FormData(offerForm);
-
-    xhr.open('POST', '/offers/create');
-    xhr.send(formData);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) return;
-
-
-        if (xhr.status !== 200) {
-            console.log(xhr.status + ': ' + xhr.statusText);
-        } else {
-            emptyOffers();
-
-            // var offer = xhr.response;
-            var offer = JSON.parse(xhr.response);
-            var offersBlock = document.querySelector('#offers');
-            offersBlock.innerHTML += offer.html;
-
-            var deleteButtons = document.querySelectorAll('.offer-delete');
-            deleteButtons.forEach(function (button) {
-                button.addEventListener('click', deleteOfferAxios);
-            });
-        }
-    };
-
-}
-function sort(event) {
-    var button = event.target;
-
-    var url = '/offers/sort?order=';
-    var order = button.dataset.order;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url + order);
-    xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState !== 4) return;
 
         if (xhr.status !== 200) {
-            console.log(xhr.status + ': ' + xhr.statusText);
-        } else {
-            var offersBlock = document.querySelector('#offers');
+            alert(xhr.status + ': ' + xhr.statusText);
+        }
+        else {
+            var block = btn.parentElement.parentElement;
+            offersBlock.removeChild(block);
+        }
+    };
+
+}
+function sortOffers(event) {
+    var order = event.target.dataset.order;
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/offers/sort?order=' + order);
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+
+        if (xhr.status !== 200) {
+            alert(xhr.status + ': ' + xhr.statusText);
+        }
+        else {
             offersBlock.innerHTML = xhr.response;
         }
-    }
+    };
 }
 
-function saveAxios(event) {
+function createOfferAxios(event) {
     event.preventDefault();
 
-    var formData = new FormData(offerForm);
+    var formData = new FormData(form);
 
-    axios({
-        method: 'post',
-        url: '/offers/create',
-        data: formData
-    })
-    .then(function(response) {
-        emptyOffers();
-
-        var offersBlock = document.querySelector('#offers');
-
-        offersBlock.innerHTML += response.data;
-
-        var deleteButtons = document.querySelectorAll('.offer-delete');
-
-        deleteButtons.forEach(function (button) {
-            button.addEventListener('click', deleteOfferAxios);
-        });
-    });
-
-    // axios.post('/offers/create', formData)
-    //     .then(function(response) {
-    //         emptyOffers();
-    //
-    //         var offersBlock = document.querySelector('#offers');
-    //
-    //         offersBlock.innerHTML += response.data;
-    //
-    //         var deleteButtons = document.querySelectorAll('.offer-delete');
-    //
-    //         deleteButtons.forEach(function (button) {
-    //             button.addEventListener('click', deleteOfferAxios);
-    //         });
-    //     });
+    axios.post('/offers/create', formData)
+        .then(function(response) {
+            console.log(response);
+            offersBlock.innerHTML += response.data;
+        })
 }
-function deleteOfferAxios(event) {
+
+function deleteOffersAxios(event) {
     event.preventDefault();
+    var btn = event.target;
+    var id = btn.dataset.id;
 
-
-    var url = '/offers/delete/';
-
-    var button = event.target;
-    var id = button.dataset.id;
-
-
-    axios.get(url + id)
+    axios.get('/offers/delete/' + id)
         .then(function() {
-            var offer = button.parentElement.parentElement;
-            var offersBlock = offer.parentElement;
-
-            offersBlock.removeChild(offer);
+            console.log('axios');
+            var block = btn.parentElement.parentElement;
+            offersBlock.removeChild(block);
         });
+
 }
-function sortAxios(event) {
-    var button = event.target;
 
-    var url = '/offers/sort?order=';
-    var order = button.dataset.order;
+function sortOffersAxios(event) {
+    var order = event.target.dataset.order;
 
-    axios.get(url + order)
-        .then(response => {
-            var offersBlock = document.querySelector('#offers');
+    axios.get('/offers/sort?order=' + order)
+        .then(function(response) {
+            console.log('axios');
+
             offersBlock.innerHTML = response.data;
-        });
-}
 
-function emptyOffers() {
-    if (document.querySelector('.empty-offers')) {
-        document.querySelector('#offers').innerHTML = "";
-    }
+        });
 }

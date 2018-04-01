@@ -1,12 +1,17 @@
 # AJAX
 ![Preview](https://github.com/winexy/laravel-ajax/blob/master/preview.png?raw=true)
 
-- [Полная презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.key)
-- [Полная презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.pdf)
-- [презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax.key)
-- [презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax.pdf)
+## Презентации
+> [Полная презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.key)
+>
+> [Полная презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.pdf)
+>
+> [Презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax.key)
+>
+> [Презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax.pdf)
 
 
+## Установка
 ````bash
     git clone https://github.com/winexy/laravel-ajax.git
     cd laravel-ajax
@@ -16,7 +21,8 @@
 ````
 
 
-> пример выполнения AJAX запроса
+## Пример выполнения AJAX запроса
+> index.html
 ```html
     ...
     <form id="commentForm">
@@ -28,7 +34,7 @@
     <script src="/js/index.js"></script>
 ```
 
-
+> js/index.js
 ````javascript
     var button = document.querySelector('#save-button');
 
