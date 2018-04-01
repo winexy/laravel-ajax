@@ -1,12 +1,15 @@
 # AJAX
+![Preview](./preview.png)
+
+- [Полная презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.key)
+- [Полная презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.pdf)
+- [презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax.key)
+- [презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax.pdf)
 
 
 ````bash
     git clone https://github.com/winexy/laravel-ajax.git
     cd laravel-ajax
-````
-
-````bash
     composer install
     php artisan migrate
     php artisan serve
