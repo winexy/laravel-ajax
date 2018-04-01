@@ -1,5 +1,5 @@
 # AJAX
-![Preview](./preview.png)
+![Preview](https://github.com/winexy/laravel-ajax/blob/master/preview.png?raw=true)
 
 - [Полная презентация .key](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.key)
 - [Полная презентация .pdf](https://github.com/winexy/laravel-ajax/blob/master/ajax-full.pdf)
